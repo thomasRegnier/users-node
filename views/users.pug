@@ -22,7 +22,8 @@ html
             article.mt-2 All users :
             each val in users
                 li
-                    article.nameUser=val.name
+                    article.nameUser.d-flex.justify-content-between.align-items-center=val.name
+                        a.text-white(href=`/user/${val._id}`) Voir
                     article.p-2=val.email
                     article.p-2 Is admin :
                         span.isAdmin=val.is_admin

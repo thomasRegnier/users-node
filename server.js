@@ -229,9 +229,15 @@ app.put('/user/:_id', urlencodeParser,(req, res) => {
 })
 
 app.get('/user/:_id', async (req, res) => {
+    const {_id} = req.params
+
+    console.log(_id)
     try{
-        const user = await  User.findById(req.params._id).select('_id name')
-        res.send(user)
+        const user = await  UserConfirm.findById(_id).select('_id name email is_admin')
+
+        console.log(user)
+        res.render('user.pug',{user: user})
+       // res.send(user)
     } catch (error) {
         res.status(500).send("Erreur du serveur")
     }
