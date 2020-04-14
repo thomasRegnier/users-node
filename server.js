@@ -154,6 +154,16 @@ app.get('/signup', (req, res) =>{
 })
 
 
+
+app.get('/logout', (req, res) =>{
+    if (req.session){
+        console.log(req.session)
+        req.session.destroy()
+        res.render('signin.pug')
+    }
+})
+
+
 app.get('/confirm/:token', urlencodeParser, async (req, res) =>{
     const { token } = req.params
 
@@ -203,6 +213,8 @@ app.get('/confirm/:token', urlencodeParser, async (req, res) =>{
 
 app.get('/user', async (req, res) => {
 
+    console.log(req.user)
+
     if (!req.user) return res.redirect('/signin')
 
     try {
@@ -229,9 +241,14 @@ app.put('/user/:_id', urlencodeParser,(req, res) => {
 })
 
 app.get('/user/:_id', async (req, res) => {
+
+    if (!req.user) return res.redirect('/signin')
+
+
     const {_id} = req.params
 
     console.log(_id)
+
     try{
         const user = await  UserConfirm.findById(_id).select('_id name email is_admin')
 
